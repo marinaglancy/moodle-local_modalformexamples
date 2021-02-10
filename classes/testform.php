@@ -27,22 +27,22 @@ namespace local_modalformexamples;
  */
 class testform extends \core_form\modal {
 
-    protected function get_context_for_ajax_submission(): \context {
+    protected function get_context_for_dynamic_submission(): \context {
         return \context_system::instance();
     }
 
-    protected function check_access_for_ajax_submission() {
+    protected function check_access_for_dynamic_submission() {
         require_capability('moodle/site:config', \context_system::instance());
     }
 
-    public function set_data_for_ajax_submission() {
+    public function set_data_for_dynamic_submission() {
         $this->set_data([
             'hidebuttons' => $this->optional_param('hidebuttons', false, PARAM_BOOL),
             'name' => $this->optional_param('name', '', PARAM_TEXT),
         ]);
     }
 
-    public function process_ajax_submission() {
+    public function process_dynamic_submission() {
         return $this->get_data();
     }
 
@@ -102,7 +102,7 @@ class testform extends \core_form\modal {
         ];
     }
 
-    protected function get_page_url_for_ajax_submission(): \moodle_url {
+    protected function get_page_url_for_dynamic_submission(): \moodle_url {
         return new \moodle_url('/local/modalformexamples/test.php');
     }
 
