@@ -32,8 +32,8 @@ echo html_writer::div(html_writer::link('#', 'Load form', ['data-action' => 'loa
 echo html_writer::div('', '', ['data-region' => 'form']);
 
 $PAGE->requires->js_amd_inline("
-require(['core_form/ajaxform'], function(AjaxForm) {
-    const form = new AjaxForm(document.querySelector('[data-region=form]'), 'local_modalformexamples\\\\testform');
+require(['core_form/dynamicform'], function(DynamicForm) {
+    const form = new DynamicForm(document.querySelector('[data-region=form]'), 'local_modalformexamples\\\\testform');
     form.onSubmitSuccess = (response) => {
         console.log(response);
         form.container.innerHTML = '';

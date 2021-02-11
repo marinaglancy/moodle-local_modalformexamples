@@ -31,7 +31,7 @@ echo $OUTPUT->heading('Test2 - modal form');
 echo html_writer::div(html_writer::link('#', 'Open form', ['data-action' => 'openform']));
 echo html_writer::div('', '', ['data-region' => 'results']);
 $PAGE->requires->js_amd_inline("
-require(['jquery', 'core_form/modal'], function($, ModalForm) {
+require(['jquery', 'core_form/modalform'], function($, ModalForm) {
     $('[data-action=openform]').on('click', function(e) {
         e.preventDefault();
         var modal = new ModalForm({

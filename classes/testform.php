@@ -25,7 +25,7 @@ namespace local_modalformexamples;
  * @copyright   2019 Marina Glancy
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class testform extends \core_form\modal {
+class testform extends \core_form\dynamic_form {
 
     protected function get_context_for_dynamic_submission(): \context {
         return \context_system::instance();

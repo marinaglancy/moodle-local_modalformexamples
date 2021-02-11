@@ -33,8 +33,8 @@ echo $OUTPUT->heading('Test3 - prerendered form submitted with AJAX');
 echo html_writer::div($form->render(), '', ['data-region' => 'form']);
 
 $PAGE->requires->js_amd_inline("
-require(['core_form/ajaxform', 'core/notification'], function(AjaxForm, Notification) {
-    const form = new AjaxForm(document.querySelector('[data-region=form]'), 'local_modalformexamples\\\\testform');
+require(['core_form/dynamicform', 'core/notification'], function(DynamicForm, Notification) {
+    const form = new DynamicForm(document.querySelector('[data-region=form]'), 'local_modalformexamples\\\\testform');
     const formargs = {arg1: 'val1'};
     form.onSubmitSuccess = (response) => {
         form.load({...formargs, name: response.name});
