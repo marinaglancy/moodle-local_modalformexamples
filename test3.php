@@ -27,25 +27,20 @@ admin_externalpage_setup('local_modalformexamples', '', [],
     new moodle_url('/local/modalformexamples/test3.php'));
 
 $form = new \local_modalformexamples\testform();
+$form->set_data_for_dynamic_submission();
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading('Test3 - prerendered form submitted with AJAX');
+echo html_writer::tag('p', 'This form is always submitted in AJAX request and the page is never reloaded. '.
+    'It has event listeners for all possible events (remember that "toast" notifications display the first notification '.
+    'in the bottom and the last one is on the top).');
+
 echo html_writer::div($form->render(), '', ['data-region' => 'form']);
 
-$PAGE->requires->js_amd_inline("
-require(['core_form/dynamicform', 'core/notification'], function(DynamicForm, Notification) {
-    const form = new DynamicForm(document.querySelector('[data-region=form]'), 'local_modalformexamples\\\\testform');
-    const formargs = {arg1: 'val1'};
-    form.onSubmitSuccess = (response) => {
-        form.load({...formargs, name: response.name});
-        Notification.addNotification({message: 'Form submitted: '+JSON.stringify(response), type: 'success'});
-    }
-    
-    // Cancel button does not make much sense in such forms but since it's there we'll just redirect back to index.
-    form.onCancel = () => {
-        form.load(formargs);
-        Notification.addNotification({message: 'Form cancelled', type: 'error'});
-    };
-});");
+$PAGE->requires->js_call_amd(
+    'local_modalformexamples/examples',
+    'test3',
+    ['[data-region=form]', \local_modalformexamples\testform::class]
+);
 
 echo $OUTPUT->footer();

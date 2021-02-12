@@ -30,22 +30,11 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading('Test2 - modal form');
 echo html_writer::div(html_writer::link('#', 'Open form', ['data-action' => 'openform']));
 echo html_writer::div('', '', ['data-region' => 'results']);
-$PAGE->requires->js_amd_inline("
-require(['jquery', 'core_form/modalform'], function($, ModalForm) {
-    $('[data-action=openform]').on('click', function(e) {
-        e.preventDefault();
-        var modal = new ModalForm({
-            formClass: 'local_modalformexamples\\\\testform',
-            args: {hidebuttons: 1},
-            modalConfig: {title: 'Test2'},
-            returnFocus: e.currentTarget
-        });
-        // If necessary extend functionality by overriding class methods, for example:
-        modal.onSubmitSuccess = function(response) {
-            console.log(response);
-            $('[data-region=results]').html('<pre>'+JSON.stringify(response)+'</pre>');
-        };
-    });
-});");
+
+$PAGE->requires->js_call_amd(
+    'local_modalformexamples/examples',
+    'test2',
+    ['[data-action=openform]', \local_modalformexamples\testform::class, '[data-region=results]']
+);
 
 echo $OUTPUT->footer();

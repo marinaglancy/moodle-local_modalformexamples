@@ -28,21 +28,15 @@ admin_externalpage_setup('local_modalformexamples', '', [],
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading('Test4 - dynamically loaded form');
+echo html_writer::tag('p', 'Press "Load form" to dynamically load the form. When submitted it will be removed. '.
+    'This page has example of confirmation dialogue for the "Cancel" button.');
 echo html_writer::div(html_writer::link('#', 'Load form', ['data-action' => 'loadform']));
 echo html_writer::div('', '', ['data-region' => 'form']);
 
-$PAGE->requires->js_amd_inline("
-require(['core_form/dynamicform'], function(DynamicForm) {
-    const form = new DynamicForm(document.querySelector('[data-region=form]'), 'local_modalformexamples\\\\testform');
-    form.onSubmitSuccess = (response) => {
-        console.log(response);
-        form.container.innerHTML = '';
-    }
-    
-    document.querySelector('[data-action=loadform]').addEventListener('click', (e) => {
-        e.preventDefault();
-        form.load({arg1: 'val1'});
-    });
-});");
+$PAGE->requires->js_call_amd(
+    'local_modalformexamples/examples',
+    'test4',
+    ['[data-region=form]', \local_modalformexamples\testform::class, '[data-action=loadform]']
+);
 
 echo $OUTPUT->footer();
