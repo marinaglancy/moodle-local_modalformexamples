@@ -31,11 +31,11 @@ class testform extends \core_form\dynamic_form {
         return \context_system::instance();
     }
 
-    protected function check_access_for_dynamic_submission() {
+    protected function check_access_for_dynamic_submission(): void {
         require_capability('moodle/site:config', \context_system::instance());
     }
 
-    public function set_data_for_dynamic_submission() {
+    public function set_data_for_dynamic_submission(): void {
         $this->set_data([
             'hidebuttons' => $this->optional_param('hidebuttons', false, PARAM_BOOL),
             'name' => $this->optional_param('name', '', PARAM_TEXT),

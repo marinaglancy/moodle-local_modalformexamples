@@ -15,12 +15,36 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Strings for local_modalformexamples
+ * Privacy Subsystem implementation for local_modalformexamples.
  *
  * @package    local_modalformexamples
  * @copyright  2021 Marina Glancy
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Modal form examples';
-$string['privacy:metadata'] = 'The Modal form examples plugin does not store any personal data.';
+namespace local_modalformexamples\privacy;
+
+defined('MOODLE_INTERNAL') || die();
+
+/**
+ * Privacy Subsystem for local_modalformexamples implementing null_provider.
+ *
+ * @package    local_modalformexamples
+ * @copyright  2021 Marina Glancy
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class provider implements \core_privacy\local\metadata\null_provider {
+
+    // To provide php 5.6 (33_STABLE) and up support.
+    use \core_privacy\local\legacy_polyfill;
+
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function _get_reason() {
+        return 'privacy:metadata';
+    }
+}

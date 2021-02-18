@@ -77,7 +77,8 @@ export const test3 = (selector, formClass) => {
     // Cancel button does not make much sense in such forms but since it's there we'll just reload.
     form.addEventListener(form.events.FORM_CANCELLED, (e) => {
         e.preventDefault();
-        form.load(formargs);
+        form.notifyResetFormChanges()
+        .then(() => form.load(formargs));
         addNotification('Form cancelled');
     });
 
