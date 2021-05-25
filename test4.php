@@ -30,13 +30,21 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading('Test4 - dynamically loaded form');
 echo html_writer::tag('p', 'Press "Load form" to dynamically load the form. When submitted it will be removed. '.
     'This page has example of confirmation dialogue for the "Cancel" button.');
-echo html_writer::div(html_writer::link('#', 'Load form', ['data-action' => 'loadform']));
-echo html_writer::div('', '', ['data-region' => 'form']);
+echo html_writer::div(html_writer::link('#', 'Load form', ['data-action' => 'loadform1']));
+echo html_writer::div(html_writer::link('#', 'Load form with data', ['data-action' => 'loadform2']));
+echo html_writer::div('', '', ['data-region' => 'form1']);
+echo html_writer::div('', '', ['data-region' => 'form2']);
 
 $PAGE->requires->js_call_amd(
     'local_modalformexamples/examples',
     'test4',
-    ['[data-region=form]', \local_modalformexamples\testform::class, '[data-action=loadform]']
+    ['[data-region=form1]', \local_modalformexamples\testform::class, '[data-action=loadform1]', false]
+);
+
+$PAGE->requires->js_call_amd(
+    'local_modalformexamples/examples',
+    'test4',
+    ['[data-region=form2]', \local_modalformexamples\testform::class, '[data-action=loadform2]', true]
 );
 
 echo $OUTPUT->footer();

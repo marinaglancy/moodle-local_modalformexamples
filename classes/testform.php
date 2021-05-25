@@ -35,14 +35,28 @@ class testform extends \core_form\dynamic_form {
         require_capability('moodle/site:config', \context_system::instance());
     }
 
+    protected function get_options(): array {
+        $rv = [];
+        if (!empty($this->_ajaxformdata['option']) && is_array($this->_ajaxformdata['option'])) {
+            foreach (array_values($this->_ajaxformdata['option']) as $idx => $option) {
+                $rv["option[$idx]"] = clean_param($option, PARAM_CLEANHTML);
+            }
+        }
+        return $rv;
+    }
+
     public function set_data_for_dynamic_submission(): void {
         $this->set_data([
             'hidebuttons' => $this->optional_param('hidebuttons', false, PARAM_BOOL),
             'name' => $this->optional_param('name', '', PARAM_TEXT),
-        ]);
+        ] + $this->get_options());
     }
 
     public function process_dynamic_submission() {
+        if ($this->get_data()->name === 'error') {
+            // For testing exceptions.
+            throw new \coding_exception('Name is error');
+        }
         return $this->get_data();
     }
 
@@ -63,9 +77,8 @@ class testform extends \core_form\dynamic_form {
         $repeatarray = array();
         $repeatarray[] = $mform->createElement('text', 'option', get_string('optionno', 'choice'));
         $mform->setType('option', PARAM_CLEANHTML);
-        $mform->setType('optionid', PARAM_INT);
 
-        $this->repeat_elements($repeatarray, 1,
+        $this->repeat_elements($repeatarray, max(1, count($this->get_options())),
             [], 'option_repeats', 'option_add_fields', 1, null, true);
 
         // Editor.

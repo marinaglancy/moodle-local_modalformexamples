@@ -28,13 +28,21 @@ admin_externalpage_setup('local_modalformexamples', '', [],
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading('Test2 - modal form');
-echo html_writer::div(html_writer::link('#', 'Open form', ['data-action' => 'openform']));
+echo html_writer::tag('p', 'Set the name to "error" to test exception during form processing');
+echo html_writer::div(html_writer::link('#', 'Open form', ['data-action' => 'openform1']));
+echo html_writer::div(html_writer::link('#', 'Open form with data', ['data-action' => 'openform2']));
 echo html_writer::div('', '', ['data-region' => 'results']);
 
 $PAGE->requires->js_call_amd(
     'local_modalformexamples/examples',
     'test2',
-    ['[data-action=openform]', \local_modalformexamples\testform::class, '[data-region=results]']
+    ['[data-action=openform1]', \local_modalformexamples\testform::class, '[data-region=results]']
+);
+
+$PAGE->requires->js_call_amd(
+    'local_modalformexamples/examples',
+    'test2',
+    ['[data-action=openform2]', \local_modalformexamples\testform::class, '[data-region=results]', true]
 );
 
 echo $OUTPUT->footer();

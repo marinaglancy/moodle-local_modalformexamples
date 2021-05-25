@@ -32,12 +32,12 @@ const addNotification = msg => {
 };
 
 
-export const test2 = (linkSelector, formClass, resultSelector) => {
+export const test2 = (linkSelector, formClass, resultSelector, addArgs = false) => {
     document.querySelector(linkSelector).addEventListener('click', (e) => {
         e.preventDefault();
         const form = new ModalForm({
             formClass,
-            args: {hidebuttons: 1},
+            args: addArgs ? {hidebuttons: 1, option: ['green', 'yellow'], name: 'Test2'} : {hidebuttons: 1},
             modalConfig: {title: 'Test2'},
             returnFocus: e.currentTarget
         });
@@ -54,7 +54,7 @@ export const test2 = (linkSelector, formClass, resultSelector) => {
             (e) => addNotification('No submit button pressed ' + e.detail.getAttribute('name')));
         form.addEventListener(form.events.CLIENT_VALIDATION_ERROR, () => addNotification('Client-side validation error'));
         form.addEventListener(form.events.SERVER_VALIDATION_ERROR, () => addNotification('Server-side validation error'));
-        form.addEventListener(form.events.ERROR, () => addNotification('Oopsie'));
+        form.addEventListener(form.events.ERROR, (e) => addNotification('Oopsie - ' + e.detail.message));
         form.addEventListener(form.events.SUBMIT_BUTTON_PRESSED, () => addNotification('Submit button pressed'));
         form.addEventListener(form.events.CANCEL_BUTTON_PRESSED, () => addNotification('Cancel button pressed'));
 
@@ -86,12 +86,12 @@ export const test3 = (selector, formClass) => {
     form.addEventListener(form.events.NOSUBMIT_BUTTON_PRESSED, () => addNotification('No submit button pressed'));
     form.addEventListener(form.events.CLIENT_VALIDATION_ERROR, () => addNotification('Client-side validation error'));
     form.addEventListener(form.events.SERVER_VALIDATION_ERROR, () => addNotification('Server-side validation error'));
-    form.addEventListener(form.events.ERROR, () => addNotification('Oopsie'));
+    form.addEventListener(form.events.ERROR, (e) => addNotification('Oopsie - ' + e.detail.message));
     form.addEventListener(form.events.SUBMIT_BUTTON_PRESSED, () => addNotification('Submit button pressed'));
     form.addEventListener(form.events.CANCEL_BUTTON_PRESSED, () => addNotification('Cancel button pressed'));
 };
 
-export const test4 = (selector, formClass, linkSelector) => {
+export const test4 = (selector, formClass, linkSelector, addArgs) => {
     const form = new DynamicForm(document.querySelector(selector), formClass);
     form.addEventListener(form.events.FORM_SUBMITTED, (e) => {
         e.preventDefault();
@@ -101,7 +101,7 @@ export const test4 = (selector, formClass, linkSelector) => {
 
     document.querySelector(linkSelector).addEventListener('click', (e) => {
         e.preventDefault();
-        form.load({arg1: 'val1'});
+        form.load(addArgs ? {option: ['blue', 'red'], name: 'hello'} : {arg1: 'val1'});
     });
 
     // Add confirmation for the Cancel button.
